@@ -22,9 +22,10 @@ Python MVP for reliably delivering internal business notifications to external H
 
 ## 本地运行
 
-要求 Python 3.12+。
+要求 Python 3.12+。所有可运行实现位于 `MVP/` 文件夹。
 
 ```powershell
+cd MVP
 python -m pip install -e ".[dev]"
 Copy-Item .env.example .env
 python -m app.db
@@ -33,12 +34,14 @@ python -m app.db
 默认使用 SQLite；生产环境可将 `DATABASE_URL` 配置为 PostgreSQL 连接串。使用 Docker PostgreSQL：
 
 ```powershell
+cd MVP
 docker compose up -d db
 ```
 
 启动 API 和 Worker：
 
 ```powershell
+cd MVP
 make run-api
 make run-worker
 ```
@@ -50,6 +53,7 @@ make run-worker
 创建通知：
 
 ```powershell
+cd MVP
 curl.exe -X POST http://127.0.0.1:8000/v1/notifications `
   -H "Authorization: Bearer change-me" `
   -H "Content-Type: application/json" `
@@ -65,24 +69,26 @@ curl.exe -X POST http://127.0.0.1:8000/v1/notifications `
 查询状态：
 
 ```powershell
+cd MVP
 curl.exe http://127.0.0.1:8000/v1/notifications/ntf_... -H "Authorization: Bearer change-me"
 ```
 
 ## 测试
 
 ```powershell
-make test
-python scripts/check-docs.py
-python -m compileall app tests
+cd MVP
+python -m pytest -q
+cd ..
+python MVP/scripts/check-docs.py
+python -m compileall MVP/app MVP/tests MVP/scripts
 ```
 
 测试覆盖创建、幂等冲突、URL/Header 校验、成功投递、可重试/不可重试错误、固定退避、租约恢复和敏感信息脱敏。测试不依赖真实供应商账号。
 
 ## 关键配置
 
-参见 `.env.example`。默认最大尝试次数为 5 次，重试间隔为 10 秒，请求超时为 10 秒，租约为 30 秒。
+参见 [MVP/.env.example](MVP/.env.example)。默认最大尝试次数为 5 次，重试间隔为 10 秒，请求超时为 10 秒，租约为 30 秒。
 
 ## 作业提交
 
-最终 GitHub 仓库名称应为 `rc_{your_nickname}`，并包含本 README、可运行 MVP、设计文档和基于真实过程填写的 [AI 使用说明](docs/ai-usage.md)。
-
+最终 GitHub 仓库名称应为 `rc_{your_nickname}`，并包含本 README、[MVP 实现](MVP/)、设计文档和基于真实过程填写的 [AI 使用说明](docs/ai-usage.md)。
