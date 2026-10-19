@@ -91,4 +91,4 @@ python -m compileall MVP/app MVP/tests MVP/scripts
 
 ## 作业提交
 
-最终 GitHub 仓库名称应为 `rc_{your_nickname}`，并包含本 README、[MVP 实现](MVP/)、设计文档和基于真实过程填写的 [AI 使用说明](docs/ai-usage.md)。
+最终 GitHub 仓库名称应为 `rc_{your_nickname}`，并包含本 README、[MVP 实现](MVP/)、基于真实过程填写的 [AI 使用说明](AI使用说明.md)。
